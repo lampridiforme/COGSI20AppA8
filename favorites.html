@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <style>
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center;
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+
+      .recipecard {
+        width: 100%;
+        height: 230px;
+        box-shadow: 2px 5px 8px #888888;
+        margin-bottom: 20px;
+      }
+
+      .recipeinfo {
+        height: 10%;
+        padding: 0 3px 0 2px;
+      }
+
+      .desaturate {
+        -webkit-filter: grayscale(50%);
+        filter: grayscale(50%)
+      }
+
+      .addbutton {
+        border-radius: 100px;
+        display: block;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        box-shadow: 2px 4px 9px #222222;
+      }
+
+      .filter {
+        margin: 2px 2px 2px 2px;
+        padding: 5px 10px 5px 10px;
+        max-width: 200px;
+        display: inline-block;
+        border-radius: 50px;
+      }
+
+      .filters {
+        width: 100%;
+      }
+
+      .gobutton {
+        border-radius: 100px;
+        display: block;
+        text-align: center;
+        width: 110px;
+        box-shadow: 2px 4px 9px #222222;
+      }
+
+      .fadebackground {
+/*        background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 1));
+*/      
+        -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+      }
+
+
+    /* The snackbar - position it at the bottom and in the middle of the screen */
+    #snackbar {
+        visibility: hidden; /* Hidden by default. Visible on click */
+        min-width: 250px; /* Set a default minimum width */
+        margin-left: -125px; /* Divide value of min-width by 2 */
+        background-color: #333; /* Black background color */
+        color: #fff; /* White text color */
+        text-align: center; /* Centered text */
+        border-radius: 2px; /* Rounded borders */
+        padding: 16px; /* Padding */
+        position: fixed; /* Sit on top of the screen */
+        z-index: 1; /* Add a z-index if needed */
+        left: 50%; /* Center the snackbar */
+        bottom: 100px; /* 30px from the bottom */
+    }
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+       However, delay the fade out process for 2.5 seconds */
+       -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+       animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    /* Animations to fade the snackbar in and out */
+    @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 100px; opacity: 1;}
+    }
+
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 100px; opacity: 1;}
+    }
+
+    @-webkit-keyframes fadeout {
+        from {bottom: 100px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+
+    @keyframes fadeout {
+        from {bottom: 100px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+
+    </style>
+
+    <title>Inventory</title>
+  </head>
+  <body class="bg-light">
+
+    <div class="primarycontent bg-light p-3">
+      <div class="input-group mb-3">
+        <input id="searchbar" type="text" class="form-control" placeholder="Start searching here" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="search()">Search</button>
+        </div>
+      </div>
+
+      <div class="filters" style="text-align: center;">
+        <div class="filter badge-info searchfilter" filtertype="favorites">
+<!--      alignment style from github here: https://github.com/google/material-design-icons/issues/206
+          literally magic! -->
+          <i class="material-icons" style="display: inline-flex; vertical-align: middle;">
+          stars
+          </i>
+            Favorites
+        </div>
+        <div class="filter badge-info searchfilter" filtertype="vegetarian">Vegetarian</div>
+        <div class="filter badge-info searchfilter" filtertype="vegan">Vegan</div>
+        <div class="filter badge-info searchfilter" filtertype="keto">Keto</div>
+        <div class="filter badge-info searchfilter" filtertype="paleo">Paleo</div>
+      </div>
+
+      <div class="dates" style="text-align: center;">
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Sunday" onclick=''>Sun</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Monday" onclick=''>Mon</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Tuesday" onclick=''>Tue</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Wednesday" onclick=''>Wed</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Thursday" onclick=''>Thu</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Friday" onclick=''>Fri</div>
+        <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Saturday" onclick=''>Sat</div>
+
+<!--         <div class="filter badge-info" style="background-color: #990033;" day="Sunday" onclick='setDate("Sunday");'>Sun</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Monday" onclick='setDate("Monday");'>Mon</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Tuesday" onclick='setDate("Tuesday");'>Tue</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Wednesday" onclick='setDate("Wednesday");'>Wed</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Thursday" onclick='setDate("Thursday");'>Thu</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Friday" onclick='setDate("Friday");'>Fri</div>
+        <div class="filter badge-info" style="background-color: #990033;" day="Saturday" onclick='setDate("Saturday");'>Sat</div> -->
+      </div>
+
+
+      <div class="recipes">
+
+        <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Canned Cranberry Sauce
+                <div class="addbutton bg-light m-2" onclick="addToPlan(0, 'Canned Cranberry Sauce', 'https://payload223.cargocollective.com/1/4/130628/6773651/04.jpg', './recipeResult.html')">+</div>
+                <div class="addbutton bg-light m-2 align-middle" onclick="addToFavorites(0, 'Canned Cranberry Sauce', 'https://payload223.cargocollective.com/1/4/130628/6773651/04.jpg', './recipeResult.html', 'Monday')">*</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+              <!-- <div class="align-middle recipeinfo" style="display: inline-block;">
+                <i class="material-icons">
+                invert_colors
+                </i>
+                <i class="material-icons">
+                donut_small
+                </i>
+              </div> -->
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload223.cargocollective.com/1/4/130628/6773651/04.jpg'); background-size: cover; width: 100%; height: 90%;">
+          </div>
+          <!-- <div class="align-middle recipeinfo" style="display: inline-block;">
+            <i class="material-icons">
+            invert_colors
+            </i>
+            <i class="material-icons">
+            donut_small
+            </i>
+          </div> -->
+        </div>
+
+        <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Powerade Turkey
+                <div class="addbutton bg-light m-2" onclick="addToPlan(1, 'Powerade Turkey', 'https://payload223.cargocollective.com/1/4/130628/6773651/01.jpg', './recipeResult.html')">+</div>
+                <div class="addbutton bg-light m-2 align-middle" onclick="">*</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload223.cargocollective.com/1/4/130628/6773651/01.jpg'); background-size: cover; width: 100%; height: 90%;">
+          </div>
+        </div>
+
+        <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Last Year's Leftovers
+                <div class="addbutton bg-light m-2" onclick="addToPlan(2, 'Last Year\'s Leftovers', 'https://payload223.cargocollective.com/1/4/130628/6773651/07.jpg', './recipeResult.html')">+</div>
+                <div class="addbutton bg-light m-2 align-middle">*</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload223.cargocollective.com/1/4/130628/6773651/07.jpg'); background-size: cover; width: 100%; height: 90%;">
+          </div>
+        </div>
+
+        <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Rudolph
+                <div class="addbutton bg-light m-2" onclick="addToPlan(3, 'Rudolph', 'https://payload231.cargocollective.com/1/4/130628/6930157/10.jpg', './recipeResult.html')">+</div>
+                <div class="addbutton bg-light m-2 align-middle">*</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload231.cargocollective.com/1/4/130628/6930157/10.jpg'); background-size: cover; width: 100%; height: 90%;">
+          </div>
+        </div>
+
+        <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Plymoth Cauliflower
+                <div class="addbutton bg-light m-2" onclick="addToPlan(4, 'Plymoth Cauliflower', 'https://payload223.cargocollective.com/1/4/130628/6773651/06.jpg', './recipeResult.html')">+</div>
+                <div class="addbutton bg-light m-2 align-middle">*</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload223.cargocollective.com/1/4/130628/6773651/06.jpg'); background-size: cover; width: 100%; height: 90%; margin-bottom: 80px;">
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary text-warning" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+<!--     toasts -->
+    <div id="snackbar"></div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+    </script>
+    <script>
+      // toggle status of each filter
+      let toggleStatus = [];
+      let dayToggleStatus = [];
+
+      // currently selected day for placement
+      let selectedDay = "";
+
+      let mockIngredientDB = [
+        {
+          recipe: "Canned Cranberry Sauce",
+          ingredients: ["cranberry sauce", "pineapple"]
+        },
+        {
+          recipe: "Powerade Turkey",
+          ingredients: ["powerade", "turkey"]
+        },
+        {
+          recipe: "Last Year's Leftovers",
+          ingredients: ["pasta"]
+        },
+        {
+          recipe: "Rudolph",
+          ingredients: ["ground beef", "ketchup", "soy sauce", "antlers"]
+        },
+        {
+          recipe: "Plymoth Cauliflower",
+          ingredients: ["cauliflower", "black beans"]
+        }
+
+      ];
+
+      function toast(message) {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        x.innerHTML = message;
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
+
+      function addFavoriteMessage() {
+          // Get the snackbar DIV
+          var x = document.getElementById("snackbar");
+
+          x.innerHTML = "Added to Favorites";
+
+          // Add the "show" class to DIV
+          x.className = "show";
+
+          // After 3 seconds, remove the show class from DIV
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
+
+      function addPlanMessage() {
+          // Get the snackbar DIV
+          var x = document.getElementById("snackbar");
+
+          x.innerHTML = "Added to Plan";
+
+          // Add the "show" class to DIV
+          x.className = "show";
+
+          // After 3 seconds, remove the show class from DIV
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
+
+      function saveRecipeToLocalStorage(recipe) {
+        let oldRecipes = JSON.parse(localStorage.getItem('plannedRecipes'));
+        if (!oldRecipes)
+          oldRecipes = [];
+
+        oldRecipes.push(recipe);
+
+        localStorage.setItem('plannedRecipes', JSON.stringify(oldRecipes));
+      }
+
+      function saveFavoriteToLocalStorage(recipe) {
+        let oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+        if (!oldFavorites)
+          oldFavorites = [];
+
+        oldFavorites.push(recipe);
+
+        localStorage.setItem('favoriteRecipes', JSON.stringify(oldFavorites));
+      }
+
+      // NOTE: hard coded to add to Monday for now
+      // id: id of recipe
+      // name: name of recipe
+      // image: url to image
+      // url: link to recipe
+      // day: day to place the recipe on (approximation of date)
+      // date: date associated with recipe
+      // TODO: needs level of indirection- select day first
+      function addToPlan(id, name, image, url) {
+        // no day selected
+        if (selectedDay === "") {
+          toast("Select a day first!");
+          return;
+        }
+
+        let selected_date = selectedDay;
+        //let selected_date = window.localStorage.getItem("selected_date");
+
+        let recipeObj = {
+          id: id,
+          name: name,
+          image: image,
+          url: url,
+          day: selected_date,
+          date: "01/01/1990",
+        };
+        addPlanMessage();
+        addIngredientsToList(name);
+        saveRecipeToLocalStorage(recipeObj);
+      }
+
+      function addToFavorites(id, name, image, url, day) {
+        let recipeObj = {
+          id: id,
+          name: name,
+          image: image,
+          url: url,
+          day: day,
+          date: "01/01/1990",
+        };
+        addFavoriteMessage();
+        saveFavoriteToLocalStorage(recipeObj);
+      }
+
+      function getIngredientsFromDB(recipeName) {
+        for (let i = 0; i < mockIngredientDB.length; i++) {
+          if (mockIngredientDB[i].recipe === recipeName) {
+            return mockIngredientDB[i].ingredients;
+          }
+        }
+      }
+
+      function addIngredientsToList(recipeName) {
+        let oldIngredients = JSON.parse(localStorage.getItem('toBuy'));
+        if (!oldIngredients) oldIngredients = [];
+
+        localStorage.setItem('toBuy', JSON.stringify(oldIngredients.concat(getIngredientsFromDB(recipeName))));
+      }
+
+      function initPage() {
+        // for search related filters
+        let filters = document.getElementsByClassName('searchfilter');
+        for (let i = 0; i < filters.length; i++) {
+          // highlight already chosen filters
+          let oldFilterStatus = getFilterStatusFromLocalStorage();
+          if (oldFilterStatus[filters[i].getAttribute("filtertype")]) {
+            console.log(filters[i].getAttribute("filtertype"));
+            filters[i].classList.add("bg-warning");
+          }
+          // assign onclick events for all filters
+          filters[i].onclick = () => {
+            toggleStatus[i] = !toggleStatus[i];
+            (toggleStatus[i]) ? filters[i].classList.add("bg-warning") : filters[i].classList.remove("bg-warning");
+            saveFilterStatusToLocalStorage(filters[i].getAttribute("filtertype"), toggleStatus[i]);
+          };
+          toggleStatus.push(false);
+        }
+
+        // for day related filters
+        let days = document.getElementsByClassName('dayfilter');
+        for (let i = 0; i < days.length; i++) {
+          days[i].onclick = () => {
+            // deselect all others
+            for (let j = 0; j < days.length; j++) {
+              days[j].classList.remove("bg-warning");
+            }
+            dayToggleStatus[i] = true;
+            (dayToggleStatus[i]) ? days[i].classList.add("bg-warning") : days[i].classList.remove("bg-warning");
+            setDate(days[i].getAttribute("day"));
+          };
+        }
+        // TODO
+      }
+
+      function setDate(current_date) {
+        selectedDay = current_date;
+        console.log(selectedDay);
+        //alert(current_date);
+        //window.localStorage.setItem("selected_date", current_date);
+      }
+
+      // NOTE: note necessary
+      function clearDate() {
+        localStorage.setItem("selected_date", "");
+      }
+
+      function saveFilterStatusToLocalStorage(filterName, filterStatus) {
+        let oldFilterStatus = JSON.parse(localStorage.getItem("filterstatus"));
+        if (!oldFilterStatus) oldFilterStatus = {};
+
+        oldFilterStatus[filterName] = filterStatus;
+
+        localStorage.setItem("filterstatus", JSON.stringify(oldFilterStatus));
+      }
+
+      function getFilterStatusFromLocalStorage() {
+        let oldFilterStatus = JSON.parse(localStorage.getItem("filterstatus"));
+        if (!oldFilterStatus) oldFilterStatus = {};
+
+        return oldFilterStatus;
+      }
+
+      // just a mock function, this really just checks if it should go to the favorites page or not
+      function search() {
+        let filters = getFilterStatusFromLocalStorage();
+
+        if (filters["favorites"]) {
+          goto("./favorites.html");
+        }
+        else {
+          goto("./recipeResults.html");
+        }
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>

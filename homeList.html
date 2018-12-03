@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      body {
+        width: 100%; 
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center; 
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+    </style>
+
+    <title>Hello, world!</title>
+  </head>
+  <body class="bg-secondary">
+    <div class="maintitle bg-secondary">
+      <div class="btn-group float-left" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners text-white" onclick="goto('./index.html')">Calendar View</button>
+        <button type="button" class="btn btn-secondary sharpcorners btn-lg text-warning" onclick="goto('./homeList.html')">List View</button>
+      </div>
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners">Edit</button>
+      </div>
+    </div>
+
+    <div id="recipeList" class="primarycontent bg-light p-3">
+<!--       <div class="text-left categorytitle text-dark">Plymoth Cauliflower Rock</div>
+      <ul>
+        <li>Cauliflower</li>
+        <li>Black Bean</li>
+      </ul>
+      <div class="text-left categorytitle text-dark">Rudolph</div>
+      <ul>
+        <li>Ground Beef</li>
+        <li>Tomato Sauce</li>
+        <li>Onion</li>
+        <li>Celery</li>
+        <li>Reindeer Antlers</li>
+      </ul>
+      <div class="text-left categorytitle text-dark">Powerade Turkey</div>
+      <ul>
+        <li>Whole Turkey</li>
+        <li>Blue Powerade</li>
+        <li>Lemon</li>
+        <li>Salt</li>
+      </ul>
+      <div class="text-left categorytitle text-dark">Last Year's Leftovers</div>
+      <ul>
+        <li>Penne Pasta</li>
+        <li>Marinara Sauce</li>
+        <li>Pesto</li>
+        <li>Ice</li>
+      </ul>
+      <div class="text-left categorytitle text-dark">Canned Cranberry Sauce</div>
+      <ul>
+        <li>Cranberry Sauce</li>
+        <li>Sliced Pineapple</li>
+      </ul> -->
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners text-warning" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+
+      function initPage() {
+        let plannedRecipes = JSON.parse(localStorage.getItem('plannedRecipes'));
+        if (!plannedRecipes) plannedRecipes = [];
+        for (let i = 0; i < plannedRecipes.length; i++) {
+          let newDiv = document.createElement('div');
+          newDiv.innerHTML = '<div class="text-left categorytitle text-dark">' + plannedRecipes[i].name + ' (' + plannedRecipes[i].day + ')</div>';
+          document.getElementById('recipeList').appendChild(newDiv);
+        }
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>

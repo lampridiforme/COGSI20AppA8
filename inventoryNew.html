@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      body {
+        width: 100%; 
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center; 
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+    </style>
+
+    <title>Inventory</title>
+  </head>
+  <body class="bg-secondary">
+    <div class="maintitle bg-secondary">
+      <div class="btn-group float-left" role="group">
+       <!--  <button type="button" class="btn btn-secondary btn-lg sharpcorners text-warning" onclick="goto('./inventoryNew.html')">Sort by Type</button>
+        <button type="button" class="btn btn-secondary sharpcorners btn-lg text-white" onclick="goto('./inventoryRecipe.html')">Sort by Recipe</button> -->
+      </div>
+      <div class="btn-group float-right" role="group">
+
+      </div>
+    </div>
+
+    <div class="primarycontent bg-light p-3">
+      <div class="text-left categorytitle text-dark">
+        Produce
+        <span class="badge badge-pill badge-info" onclick="edit('produce')">Edit</span>
+      </div> 
+
+      <ul id="producelist"></ul>
+      <div class="text-left categorytitle text-dark">
+        Spices
+        <span class="badge badge-pill badge-info" onclick="edit('spices')">Edit</span>
+      </div>
+
+      <ul id="spicelist"></ul>
+      <div class="text-left categorytitle text-dark">
+        Meats
+        <span class="badge badge-pill badge-info" onclick="edit('meats')">Edit</span>
+      </div>
+      
+      <ul id="meatlist"></ul>
+      <div class="text-left categorytitle text-dark">
+        Misc.
+        <span class="badge badge-pill badge-info" onclick="edit('misc')">Edit</span>
+      </div>
+      <ul id="misclist"></ul>
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary text-warning" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="./js/ingredientData.js"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+
+      function displayInCategory(name, expDate, id) {
+
+        let newItemDiv = document.createElement('li');
+        newItemDiv.innerHTML = name + " <em style='color: grey; font-size: 12px; font-style: normal;'>(Expires " + expDate + ")</em>";
+        newItemDiv.setAttribute('itemid', id);
+
+        if (mockIngredientData.produce.indexOf(name) !== -1) {
+          document.getElementById('producelist').appendChild(newItemDiv);
+        }
+        else if (mockIngredientData.spices.indexOf(name) !== -1) {
+          document.getElementById('spicelist').appendChild(newItemDiv);
+        }
+        else if (mockIngredientData.meats.indexOf(name) !== -1) {
+          document.getElementById('meatlist').appendChild(newItemDiv);
+        }
+        else {
+          document.getElementById('misclist').appendChild(newItemDiv);
+        }
+      }
+
+      function initPage() {
+        let displayed = [];
+        let inventoryData = JSON.parse(localStorage.getItem('inventoryData'));
+        if (!inventoryData) inventoryData = [];
+        for (let i = 0; i < inventoryData.length; i++) {
+          // duplicate check
+          //if (displayed.indexOf(inventoryData[i].name) === -1) {
+            displayInCategory(inventoryData[i].name, inventoryData[i].expirationDate, inventoryData[i].id);
+            displayed.push(inventoryData[i].name);
+          //}
+        }
+      }
+
+      function edit(category) {
+        localStorage.setItem('chosenCategory', category);
+        goto("./inventoryEditNew.html");
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>

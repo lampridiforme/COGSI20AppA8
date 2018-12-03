@@ -1,0 +1,146 @@
+body {
+  width: 100%; 
+  height: 100%;
+}
+
+.maintitle {
+  text-align: center; 
+  width: 100%;
+  height: 50px;
+}
+
+.primarycontent {
+  height: 550px;
+}
+
+.day {
+  height: 80px; 
+  width: 100%; 
+  padding: 0; 
+  margin: 0;
+}
+
+.daytitle {
+  height: 100%; 
+  width: 20%;
+}
+
+.daycontent {
+  height: 100%; 
+  width: 80%;
+}
+
+.navbar {
+  padding: 0;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.sharpcorners {
+  border-radius: 0px;
+}
+
+.hideme {
+  display: none;
+}
+
+.recipeblock {
+  width: 100px;
+  background-color: white;
+  display: inline-block;
+  float: left;
+  border-style: solid;
+  border-color: grey;
+  border-width: 2px;
+  border-radius: 1000px;
+  height: 60px;
+  font-size: 12px;
+  width: 60px;
+  margin-left: 2px;
+  position: relative;
+  padding-top: 10px;
+}
+
+.closebutton {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  right: -8px;
+  top: -5px;
+  border-radius: 10px;
+  font-size: 10px;
+  color: black;
+  text-align: center;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+#module {
+  width: 500px;
+}
+
+#module p.collapse[aria-expanded="false"] {
+    display: block;
+    height: 40px !important;
+    overflow: hidden;
+}
+
+#module p.collapsing[aria-expanded="false"] {
+    height: 40px !important;
+}
+
+#module a.collapsed:after  {
+    content: '+ Show More';
+}
+
+#module a:not(.collapsed):after {
+    content: '- Show Less';
+}

@@ -1,0 +1,130 @@
+body {
+    width: 100%;
+    height: 100%;
+  }
+
+  .maintitle {
+    text-align: center;
+    width: 100%;
+    height: 50px;
+  }
+
+  .primarycontent {
+    height: 560px;
+  }
+
+  .categorytitle {
+  }
+
+  .navbar {
+    padding: 0;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  .sharpcorners {
+    border-radius: 0px;
+  }
+
+  .recipecard {
+    width: 100%;
+    height: 230px;
+    box-shadow: 2px 5px 8px #888888;
+    margin-bottom: 20px;
+  }
+
+  .recipeinfo {
+    height: 10%;
+    padding: 0 3px 0 2px;
+  }
+
+  .desaturate {
+    -webkit-filter: grayscale(50%);
+    filter: grayscale(50%)
+  }
+
+  .addbutton {
+    border-radius: 100px;
+    display: block;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    box-shadow: 2px 4px 9px #222222;
+  }
+
+  .filter {
+    margin: 2px 2px 2px 2px;
+    padding: 5px 10px 5px 10px;
+    max-width: 200px;
+    display: inline-block;
+    border-radius: 50px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .gobutton {
+    border-radius: 100px;
+    display: block;
+    text-align: center;
+    width: 110px;
+    box-shadow: 2px 4px 9px #222222;
+  }
+
+  .fadebackground {
+/*        background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 1));
+*/
+    -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  }
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 100px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 100px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 100px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 100px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 100px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

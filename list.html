@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center;
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+
+      /* The snackbar - position it at the bottom and in the middle of the screen */
+      #snackbar {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 100px; /* 30px from the bottom */
+      }
+
+      /* Show the snackbar when clicking on a button (class added with JavaScript) */
+      #snackbar.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+         However, delay the fade out process for 2.5 seconds */
+         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+         animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+      /* Animations to fade the snackbar in and out */
+      @-webkit-keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 100px; opacity: 1;}
+      }
+
+      @keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 100px; opacity: 1;}
+      }
+
+      @-webkit-keyframes fadeout {
+          from {bottom: 100px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+      }
+
+      @keyframes fadeout {
+          from {bottom: 100px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+      }
+
+    </style>
+
+    <title>Shopping List</title>
+  </head>
+  <body class="bg-light">
+    <div class="maintitle bg-secondary">
+      <div class="btn-group float-left" role="group">
+        <!-- <button type="button" class="btn btn-secondary btn-lg sharpcorners text-warning" onclick="">Sort by Type</button>
+        <button type="button" class="btn btn-secondary sharpcorners btn-lg text-white" onclick="">Sort by Recipe</button> -->
+      </div>
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners" onclick="goto('./listEdit.html')">Edit</button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-info btn-lg btn-block font-weight-bold" style="width: 90%; margin-left: 20px; margin-top: 20px;" onclick="goto('./scanEdit.html')">Scan Receipt</button>
+
+    <div class="primarycontent bg-light p-3 d-flex flex-column">
+      <div class="text-left categorytitle text-dark">Produce</div>
+      <ul id="producelist"></ul>
+      <div class="text-left categorytitle text-dark">Spices</div>
+      <ul id="spicelist"></ul>
+      <div class="text-left categorytitle text-dark">Meats</div>
+      <ul id="meatlist"></ul>
+      <div class="text-left categorytitle text-dark">Misc.</div>
+      <ul id="misclist"></ul>
+    </div>
+
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary text-warning" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!--     toasts -->
+    <div id="snackbar"></div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="./js/ingredientData.js"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+
+      //toast function
+      function toast(message) {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        x.innerHTML = message;
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
+
+      function displayInCategory(name) {
+        let ingredientDiv = document.createElement('li');
+        ingredientDiv.innerHTML = name;
+        if (mockIngredientData.produce.indexOf(name) !== -1) {
+          document.getElementById('producelist').appendChild(ingredientDiv);
+        }
+        else if (mockIngredientData.spices.indexOf(name) !== -1) {
+          document.getElementById('spicelist').appendChild(ingredientDiv);
+        }
+        else if (mockIngredientData.meats.indexOf(name) !== -1) {
+          document.getElementById('meatlist').appendChild(ingredientDiv);
+        }
+        else {
+          document.getElementById('misclist').appendChild(ingredientDiv);
+        }
+      }
+
+      function initPage() {
+        // so we can remove any duplicates
+        let displayed = [];
+        let toBuyList = JSON.parse(localStorage.getItem('toBuy'));
+        if (!toBuyList) toBuyList = [];
+        for (let i = 0; i < toBuyList.length; i++) {
+          let name = (!toBuyList[i].name) ? toBuyList[i] : toBuyList[i].name; // support name and object representation          
+          if (displayed.indexOf(name) === -1) {
+            displayInCategory(name);
+            displayed.push(name);
+          }
+        }
+        if (localStorage.getItem("clickedSave") === "true") {
+          //call toast function
+          toast("Updated Inventory and Budget!");
+        }
+        //set clickedSave to false
+        localStorage.setItem("clickedSave", "false");
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>

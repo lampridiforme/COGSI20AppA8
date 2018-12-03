@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      body {
+        width: 100%; 
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center; 
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+    </style>
+
+    <title>Budget</title>
+  </head>
+  <body class="bg-light">
+    <div class="maintitle bg-secondary">
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners text-warning">Edit</button>
+      </div>
+    </div>
+    <div class="primarycontent bg-light p-3">
+
+      <div class="input-group">
+        <span class="input-group-addon" style="font-size: 26px; margin-right: 5px;">$</span>
+        <input id="budgetInput" type="text" class="form-control" aria-label="Text input with dropdown button">
+        <div class="input-group-append">
+          <button id="timeUnitSelector" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Per Week</button>
+          <div class="dropdown-menu">
+            <a id="weekUnit" class="dropdown-item" href="#" onclick="updateUnitSelectorText('Per Week')">Per Week</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a id="monthUnit" class="dropdown-item" href="#" onclick="updateUnitSelectorText('Per Month')">Per Month</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <button type="button" class="btn btn-secondary col-6" data-dismiss="modal" onclick="goto('./budget.html')">Cancel</button>
+        <button type="button" class="btn btn-primary col-6" onclick="saveChanges()">Save</button>
+      </div>
+
+    </div>
+
+
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners text-warning" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      let budgetUnit = "Per Week";
+
+      function goto(url) {
+        window.location = url;
+      }
+
+      function saveChanges() {
+        saveBudgetThresholdToLocalStorage();
+        goto('./budget.html');
+      }
+
+      function saveBudgetThresholdToLocalStorage() {
+        console.log('saving changes');
+        
+        let budgetSelector = document.getElementById('budgetInput');
+        // let unitSelector = document.getElementById('timeUnitSelector');
+
+        let budget = budgetSelector.value;
+        // let unit = unitSelector.value;
+
+        if (!budget || isNaN(budget) || budget < 0) 
+          budget = 0;
+
+        localStorage.setItem('budgetAmount', budget);
+        localStorage.setItem('budgetTimeUnit', budgetUnit);
+      }
+
+      function getBudgetThresholdFromLocalStorage() {
+        let savedBudget = localStorage.getItem('budgetAmount');
+        let savedUnit = localStorage.getItem('budgetTimeUnit');      
+
+        if (!savedBudget)
+          savedBudget = 0;
+
+        if (savedUnit === "Per Month") {
+          updateUnitSelectorText("Per Month");
+        }
+        else {
+          updateUnitSelectorText("Per Week");
+        }
+
+        updateBudgetText(savedBudget);
+
+      }
+
+      function updateUnitSelectorText(text) {
+        let selector = document.getElementById('timeUnitSelector');
+        selector.innerHTML = text;
+
+        budgetUnit = text;
+      }
+
+      function updateBudgetText(val) {
+        let budgetInput = document.getElementById('budgetInput');
+        budgetInput.value = (!val || isNaN(val) || val <= 0) ? 0 : val;
+      }
+
+      getBudgetThresholdFromLocalStorage();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+  </body>
+</html>

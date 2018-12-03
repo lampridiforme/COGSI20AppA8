@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      body {
+        width: 100%; 
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center; 
+        width: 100%;
+        height: 50px;
+      }
+
+      .primarycontent {
+        height: 560px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+    </style>
+
+    <title>Budget</title>
+  </head>
+  <body class="bg-light">
+    <div class="maintitle bg-secondary">
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners" onclick="goto('./budgetEdit.html')">Edit</button>
+      </div>
+    </div>
+    <div class="primarycontent bg-light p-3">
+      <canvas id="myChart" class="align-middle" width="400" height="400" style="margin-top: 10px;"></canvas>
+      <div id="budgetStatusMessage" style="margin-top: 20px;">
+        You have spent $60 out of your $360 monthly budget!
+      </div>
+    </div>
+
+
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners text-warning" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+
+      function initPage() {
+        let moneySpent = localStorage.getItem('budgetSpent');
+        let budgetUnit = localStorage.getItem('budgetTimeUnit');
+        let budget = localStorage.getItem('budgetAmount');
+
+        if (!moneySpent) moneySpent = 0;
+        if (!budgetUnit) budgetUnit = "Per Week";
+        if (!budget) budget = 0;
+
+        updateBudgetMessage(Math.round(moneySpent * 100) / 100, budget, budgetUnit);
+      }
+
+      function updateBudgetMessage(moneySpent, budget, budgetUnit) {
+        let string = "You have spent $" + moneySpent + " out of your $" + budget;
+
+        let budgetUnitString = (budgetUnit === "Per Month") ? " monthly " : " weekly ";
+
+        string += budgetUnitString + "budget.";
+
+        document.getElementById('budgetStatusMessage').innerHTML = string;
+      }
+
+      function getPercentageUsed() {
+        let moneySpent = localStorage.getItem('budgetSpent');
+        let budget = localStorage.getItem('budgetAmount');
+        
+        if (!moneySpent || isNaN(moneySpent)) moneySpent = 0;
+        if (!budget || isNaN(budget)) return 0; // avoid divide by 0 situation
+
+        return Math.min(Math.round((moneySpent/budget * 100).toFixed(2)), 100);
+      }
+
+      initPage();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script>
+      // ripped from chart.js docs
+      var ctx = document.getElementById("myChart").getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: ['Spent', 'Unspent'],
+              datasets: [{
+                  label: '# of Votes',
+                  data: [(100 - getPercentageUsed()), getPercentageUsed()],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(206, 206, 206, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(206, 206, 206, 1)',
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+            legend: {
+              position: 'top',
+              display: false,
+            },
+            elements: {
+              center: {
+                text: getPercentageUsed() + "%",
+                color: '#36A2EB', //Default black
+                fontStyle: 'Helvetica', //Default Arial
+                sidePadding: 15 //Default 20 (as a percentage)
+              }
+            },
+            tooltips: {
+              enabled: true 
+            }
+          }
+      });
+
+       Chart.pluginService.register({
+          beforeDraw: function (chart) {
+            if (chart.config.options.elements.center) {
+              //Get ctx from string
+              var ctx = chart.chart.ctx;
+
+              //Get options from the center object in options
+              var centerConfig = chart.config.options.elements.center;
+              var fontStyle = centerConfig.fontStyle || 'Arial';
+              var txt = centerConfig.text;
+              var color = centerConfig.color || '#000';
+              var sidePadding = centerConfig.sidePadding || 20;
+              var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+              //Start with a base font of 30px
+              ctx.font = "30px " + fontStyle;
+
+              //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+              var stringWidth = ctx.measureText(txt).width;
+              var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+              // Find out how much the font can grow in width.
+              var widthRatio = elementWidth / stringWidth;
+              var newFontSize = Math.floor(30 * widthRatio);
+              var elementHeight = (chart.innerRadius * 2);
+
+              // Pick a new font size so it will not be larger than the height of label.
+              var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+              //Set font settings to draw it correctly.
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+              var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+              ctx.font = fontSizeToUse+"px " + fontStyle;
+              ctx.fillStyle = color;
+
+              //Draw text in center
+              ctx.fillText(txt, centerX, centerY);
+            }
+          }
+        });
+    </script>
+  </body>
+</html>

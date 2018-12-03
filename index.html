@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/calendar.css" />
+
+    <title>Home</title>
+  </head>
+  <body class="bg-light">
+    <div class="maintitle w-100 bg-secondary">
+      <div class="btn-group float-left" role="group">
+      </div>
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary btn-lg sharpcorners" style="color: rgb(190, 190, 190);" onclick="goto('./login.html')">Log Out</button>
+        <button id="editbutton" type="button" class="btn btn-secondary btn-lg sharpcorners" onclick="toggleEditMode()">Edit</button>
+      </div>
+    </div>
+
+    <div class="primarycontent">
+      <div class="d-block bg-light text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Sun
+        </div>
+        <div id="Sunday" class="d-block p-2 text-dark bg-light float-left daycontent"></div>
+      </div>
+
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Mon
+        </div>
+        <div id="Monday" class="d-block p-2 text-dark bg-white float-left daycontent"></div>
+      </div>
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Tue
+        </div>
+        <div id="Tuesday" class="d-block p-2 text-dark bg-light float-left daycontent"></div>
+      </div>
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Wed
+        </div>
+        <div id="Wednesday" class="d-block p-2 text-dark bg-white float-left daycontent"></div>
+      </div>
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Thu
+        </div>
+        <div id="Thursday" class="d-block p-2 text-dark bg-light float-left daycontent"></div>
+      </div>
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Fri
+        </div>
+        <div id="Friday" class="d-block p-2 text-dark bg-white float-left daycontent"></div>
+      </div>
+      <div class="d-block bg-primary text-white day">
+        <div class="d-block p-2 text-white bg-dark float-left daytitle">
+          Sat
+        </div>
+        <div id="Saturday" class="d-block p-2 text-dark bg-light float-left daycontent"></div>
+      </div>
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners text-warning" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            Are you sure you want to delete this?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--     toasts -->
+    <div id="snackbar"></div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="./js/recipeData.js"></script>
+    <script src="./js/calendar.js"></script>
+  </body>
+</html>

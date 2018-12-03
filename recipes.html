@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <style>
+      body {
+        width: 100%; 
+        height: 100%;
+      }
+
+      .maintitle {
+        text-align: center; 
+        width: 100%;
+      }
+
+      .primarycontent {
+        height: 609px;
+      }
+
+      .categorytitle {
+      }
+
+      .navbar {
+        padding: 0;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .sharpcorners {
+        border-radius: 0px;
+      }
+
+      .filter {
+        margin: 2px 2px 2px 2px;
+        padding: 5px 10px 5px 10px;
+        max-width: 200px;
+        display: inline-block;
+        border-radius: 50px;
+      }
+
+      .filters {
+        width: 100%;
+      }
+
+    </style>
+
+    <title>Shopping List</title>
+  </head>
+  <body class="bg-secondary">
+    
+ 
+    <div class="primarycontent bg-light p-3 d-flex flex-column">
+      <!-- <div class="w-100">
+        <a href="./recipeFavorites.html">
+          <img width="30px" height="30px" src="./images/star-image.png" class="m-2 float-left" />
+        </a>
+      </div> -->
+      <!-- <div class="row">
+        <h3 class="col-sm-6">
+          Search Recipes
+        </h3>
+        <div class="col-sm col-sm-6 p-0">
+          <img width="10px" height="10px" src="./images/star-image.png" />
+        </div>
+      </div> -->
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Start searching here" aria-label="Recipient's username" aria-describedby="button-addon2" id="searchbar">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="search()">Search</button>
+        </div>
+      </div>
+
+      <div class="filters" style="text-align: center;">
+        <div class="filter badge-info" filtertype="favorites" style="display: none;">
+<!--      alignment style from github here: https://github.com/google/material-design-icons/issues/206
+          literally magic! -->
+          <i class="material-icons" style="display: inline-flex; vertical-align: middle;">
+          stars
+          </i>
+            Favorites
+        </div>
+        <div class="filter badge-info" filtertype="seafood">Seafood</div>
+        <div class="filter badge-info" filtertype="vegetarian">Vegetarian</div>
+        <div class="filter badge-info" filtertype="vegan">Vegan</div>
+        <div class="filter badge-info" filtertype="keto">Keto</div>
+        <div class="filter badge-info" filtertype="paleo">Paleo</div>
+      </div>
+      
+
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary text-warning" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+    </script>
+    <script src="./js/search.js"></script>
+    <script>
+      function initPage() {
+        // clear old data
+        clearLocalStorageFilterStatus();
+        // assign onclick events for all filters
+        let filters = document.getElementsByClassName('filter');
+        for (let i = 0; i < filters.length; i++) {
+          filters[i].onclick = () => {
+            toggleStatus[i] = !toggleStatus[i];
+            (toggleStatus[i]) ? filters[i].classList.add("bg-warning") : filters[i].classList.remove("bg-warning");
+            saveFilterStatusToLocalStorage(filters[i].getAttribute("filtertype"), toggleStatus[i]);
+          };
+          toggleStatus.push(false);
+        }
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/recipes.css" />
+
+    <title>Inventory</title>
+  </head>
+  <body class="bg-light">
+
+    <div class="primarycontent bg-light p-3">
+      <div class="input-group mb-3">
+        <input id="searchbar" type="text" class="form-control" placeholder="Start searching here" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="search()">Search</button>
+        </div>
+      </div>
+
+      <div class="filters" style="text-align: center;">
+        <div class="filter badge-info searchfilter" filtertype="favorites" style="display: none;">
+<!--      alignment style from github here: https://github.com/google/material-design-icons/issues/206
+          literally magic! -->
+          <i class="material-icons" style="display: inline-flex; vertical-align: middle;">
+          stars
+          </i>
+            Favorites
+        </div>
+        <div class="filter badge-info searchfilter" filtertype="seafood">Seafood</div>
+        <div class="filter badge-info searchfilter" filtertype="vegetarian">Vegetarian</div>
+        <div class="filter badge-info searchfilter" filtertype="vegan">Vegan</div>
+        <div class="filter badge-info searchfilter" filtertype="keto">Keto</div>
+        <div class="filter badge-info searchfilter" filtertype="paleo">Paleo</div>
+      </div>
+
+     <div class="recipes" id="recipes">
+
+<!--         <div class="recipecard">
+          <div class="recipeinfo bg-light">
+            <div class="">
+              <div class="align-middle" style="display: inline-block;">
+                Canned Cranberry Sauce
+                <div class="addbutton bg-light m-2" data-toggle="modal" data-target="#exampleModal" onclick="setSelectedRecipe(0, 'Canned Cranberry Sauce', 'https://payload223.cargocollective.com/1/4/130628/6773651/04.jpg', './recipeResult.html')">+</div>
+                <div class="gobutton bg-light m-2" onclick="goto('./recipeResult.html')">Go To Recipe</div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="background: linear-gradient(
+            rgba(248,249,250, 1.0), rgba(248,249,250, 0.2), rgba(248,249,250, 0.1), rgba(248,249,250, 0.01), rgba(0, 0, 0, 0)
+    ), url('https://payload223.cargocollective.com/1/4/130628/6773651/04.jpg'); background-size: cover; width: 100%; height: 90%;">
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+    <footer class="footer navbar bg-secondary navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%; text-align: center;">
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./index.html')">Plan</button>
+        <button type="button" class="btn btn-secondary text-warning" style="width: 21%" onclick="goto('./recipes.html')">Recipes</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./list.html')">S. List</button>
+        <button type="button" class="btn btn-secondary" style="width: 21%" onclick="goto('./inventoryNew.html')">Inv.</button>
+        <button type="button" class="btn btn-secondary sharpcorners" style="width: 21%;" onclick="goto('./budget.html')">Budget</button>
+      </div>
+    </footer>
+
+    <!--     toasts -->
+    <div id="snackbar"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" style="margin-top: 100px;" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Select a day to make the recipe</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="dates" style="text-align: center;">
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Sunday" onclick=''>Sun</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Monday" onclick=''>Mon</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Tuesday" onclick=''>Tue</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Wednesday" onclick=''>Wed</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Thursday" onclick=''>Thu</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Friday" onclick=''>Fri</div>
+              <div class="filter badge-info dayfilter" style="background-color: #990033;" day="Saturday" onclick=''>Sat</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="addToPlan(getSelectedId(), getSelectedName(), getSelectedImage(), './recipeResult.html')">Set Day</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function goto(url) {
+        window.location = url;
+      }
+    </script>
+    <script src="./js/search.js"></script>
+    <script src="./js/recipeData.js"></script>
+    <script src="./js/recipes.js"></script>
+  </body>
+</html>
